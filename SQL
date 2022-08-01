@@ -1,0 +1,85 @@
+
+create table "Central_london" (
+survey_wave INTEGER,
+site_id VARCHAR,
+"location" VARCHAR,
+weather VARCHAR,
+"time" VARCHAR,
+"period" VARCHAR,
+direction VARCHAR, 
+start_hour INTEGER,
+start_minute INTEGER,
+no_private_cycle INTEGER,
+no_hire_cycles INTEGER,
+total_cycles INTEGER);
+
+Select * From public."Central_london";
+
+create table "Outer_london" (
+survey_wave INTEGER,
+site_id VARCHAR,
+"location" VARCHAR,
+weather VARCHAR,
+"time" VARCHAR,
+"period" VARCHAR,
+direction VARCHAR, 
+start_hour INTEGER,
+start_minute INTEGER,
+number_male_cycles INTEGER,
+number_female_cycles INTEGER,
+number_unkown_cycles INTEGER,
+total_cycles INTEGER);
+
+Select * From public."Outer_london";
+
+
+create table "Inner_london" (
+survey_wave INTEGER,
+site_id VARCHAR,
+"location" VARCHAR,
+weather VARCHAR,
+"time" VARCHAR,
+"period" VARCHAR,
+direction VARCHAR, 
+start_hour INTEGER,
+start_minute INTEGER,
+no_private_cycle INTEGER,
+no_hire_cycles INTEGER,
+total_cycles INTEGER);
+
+CREATE TABLE biking_merged1 AS
+SELECT public."Inner_london".survey_wave, site_id, location, weather, time, period,
+direction, start_hour, start_minute,no_private_cycle, no_hire_cycles, total_cycles, public."biking_sites"."functional_cycling_area" 
+FROM public."Inner_london"
+INNER JOIN public."biking_sites"
+ON public."Inner_london"."site_id" = public."biking_sites"."UniqueID";
+
+select * from biking_merged1;
+
+
+CREATE TABLE biking_merged2 AS
+SELECT public."Outer_london".survey_wave, site_id, location, weather, time, period,
+direction, start_hour, start_minute,number_male_cycles, number_female_cycles, number_unkown_cycles, total_cycles, 
+public."biking_sites"."functional_cycling_area" 
+FROM public."Outer_london"
+INNER JOIN public."biking_sites"
+ON public."Outer_london"."site_id" = public."biking_sites"."UniqueID";
+
+
+select * from biking_merged2;
+
+
+
+CREATE TABLE biking_merged3 AS
+SELECT public."Central_london".survey_wave, site_id, location, weather, time, period,
+direction, start_hour, start_minute, no_private_cycle, no_hire_cycles, total_cycles, 
+public."biking_sites"."functional_cycling_area" 
+FROM public."Central_london"
+INNER JOIN public."biking_sites"
+ON public."Central_london"."site_id" = public."biking_sites"."UniqueID";
+
+select * from biking_merged3;
+
+
+
+
