@@ -1,4 +1,10 @@
 
+create table "biking_sites" (
+UniqueID VARCHAR,
+"location" VARCHAR,
+"Borough" VARCHAR);
+
+
 create table "Central_london" (
 survey_wave INTEGER,
 site_id VARCHAR,
@@ -47,39 +53,37 @@ no_private_cycle INTEGER,
 no_hire_cycles INTEGER,
 total_cycles INTEGER);
 
-CREATE TABLE biking_merged1 AS
+CREATE TABLE inner_merged1 AS
 SELECT public."Inner_london".survey_wave, site_id, location, weather, time, period,
-direction, start_hour, start_minute,no_private_cycle, no_hire_cycles, total_cycles, public."biking_sites"."functional_cycling_area" 
+direction, start_hour, start_minute,no_private_cycle, no_hire_cycles, total_cycles, public."biking_sites"."Borough" 
 FROM public."Inner_london"
 INNER JOIN public."biking_sites"
 ON public."Inner_london"."site_id" = public."biking_sites"."UniqueID";
 
-select * from biking_merged1;
+select * from inner_merged1;
 
 
-CREATE TABLE biking_merged2 AS
+CREATE TABLE Outer_merged2 AS
 SELECT public."Outer_london".survey_wave, site_id, location, weather, time, period,
 direction, start_hour, start_minute,number_male_cycles, number_female_cycles, number_unkown_cycles, total_cycles, 
-public."biking_sites"."functional_cycling_area" 
+public."biking_sites"."Borough" 
 FROM public."Outer_london"
 INNER JOIN public."biking_sites"
 ON public."Outer_london"."site_id" = public."biking_sites"."UniqueID";
 
 
-select * from biking_merged2;
+select * from Outer_merged2;
 
 
 
-CREATE TABLE biking_merged3 AS
+CREATE TABLE central_merged3 AS
 SELECT public."Central_london".survey_wave, site_id, location, weather, time, period,
 direction, start_hour, start_minute, no_private_cycle, no_hire_cycles, total_cycles, 
-public."biking_sites"."functional_cycling_area" 
+public."biking_sites"."Borough" 
 FROM public."Central_london"
 INNER JOIN public."biking_sites"
 ON public."Central_london"."site_id" = public."biking_sites"."UniqueID";
 
-select * from biking_merged3;
-
-link to CSV files ---> https://drive.google.com/drive/folders/1FkxWOSaS1vVsNCwS0txNFLw57nynVtWJ 
+select * from central_merged3;
 
 
